@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var DATA = window.AZ_DATA || { sections: [], featured: [] };
+  var DATA = window.AZ_DATA || { sections: [] };
 
   // ?static=1 shows everything at once (used for screenshots and print); no animation, images load eagerly.
   var STATIC = /[?&]static=1/.test(location.search);
@@ -32,7 +32,6 @@
     var box = el('div', 'thumb');
     box.appendChild(imgFor(item, 'thumb'));
     card.appendChild(box);
-    card.appendChild(el('div', 'cap', item.caption || ''));
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
     return card;
@@ -46,71 +45,7 @@
     });
   }
 
-  /* ─── featured carousel ─── */
-  function buildFeatured() {
-    var block = document.querySelector('[data-carousel="featured"]');
-    if (!block || !DATA.featured.length) return;
-
-    var track = block.querySelector('[data-track]');
-    var dots = block.querySelector('[data-dots]');
-    var count = block.querySelector('[data-count]');
-
-    DATA.featured.forEach(function (item, i) {
-      var c = makeCard(item);
-      wireCard(c, DATA.featured, i);
-      track.appendChild(c);
-    });
-
-    count.textContent = DATA.featured.length + ' работ';
-
-    var dotEls = [];
-    DATA.featured.forEach(function (_, i) {
-      var d = el('button', 'dot');
-      d.type = 'button';
-      d.setAttribute('aria-label', 'Работа ' + (i + 1));
-      d.addEventListener('click', function () { scrollToIndex(track, i, dotEls); });
-      dots.appendChild(d);
-      dotEls.push(d);
-    });
-
-    function update() {
-      var cards = track.children;
-      if (!cards.length) return;
-      var left = track.scrollLeft;
-      var best = 0, bestD = Infinity;
-      for (var i = 0; i < cards.length; i++) {
-        var d = Math.abs(cards[i].offsetLeft - left);
-        if (d < bestD) { bestD = d; best = i; }
-      }
-      dotEls.forEach(function (d, i) { d.classList.toggle('on', i === best); });
-    }
-    track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
-    update();
-
-    block.querySelector('[data-prev]').addEventListener('click', function () {
-      var idx = activeIndex(track, dotEls);
-      scrollToIndex(track, Math.max(0, idx - 1), dotEls);
-    });
-    block.querySelector('[data-next]').addEventListener('click', function () {
-      var idx = activeIndex(track, dotEls);
-      scrollToIndex(track, Math.min(DATA.featured.length - 1, idx + 1), dotEls);
-    });
-  }
-
-  function activeIndex(track, dotEls) {
-    return dotEls.findIndex(function (d) { return d.classList.contains('on'); });
-  }
-
-  function scrollToIndex(track, i, dotEls) {
-    var card = track.children[i];
-    if (!card) return;
-    track.scrollTo({ left: card.offsetLeft - 2, behavior: 'smooth' });
-    dotEls.forEach(function (d, j) { d.classList.toggle('on', j === i); });
-  }
-
-  /* ─── galleries ─── */
-  var COLLAPSED = 8;
-
+  /* ─── galleries: одна строка миниатюр, остальное — лайтбокс / «показать все» ─── */
   function buildGalleries() {
     DATA.sections.forEach(function (sec) {
       var host = document.querySelector('[data-gallery="' + sec.id + '"]');
@@ -118,27 +53,30 @@
 
       var grid = el('div', 'grid');
       host.appendChild(grid);
-      var shown = Math.min(COLLAPSED, sec.items.length);
 
-      function render(n) {
+      var expanded = false;
+      var btn = el('button', 'grid-cta', 'показать все ' + sec.items.length);
+      btn.type = 'button';
+      btn.addEventListener('click', function () { expanded = true; refresh(); });
+
+      // ponytail: колонки считаем по факту сетки; при сужении окна перерисовываем строку
+      function cols() {
+        return Math.max(1, getComputedStyle(grid).gridTemplateColumns.split(' ').length);
+      }
+
+      function refresh() {
+        var n = expanded ? sec.items.length : Math.min(cols(), sec.items.length);
         grid.innerHTML = '';
-        for (var i = 0; i < n && i < sec.items.length; i++) {
+        for (var i = 0; i < n; i++) {
           var card = makeCard(sec.items[i]);
           wireCard(card, sec.items, i);
           grid.appendChild(card);
         }
+        if (expanded || sec.items.length <= n) btn.remove();
+        else host.appendChild(btn);
       }
-      render(shown);
-
-      if (sec.items.length > shown) {
-        var btn = el('button', 'grid-cta', 'показать все ' + sec.items.length);
-        btn.type = 'button';
-        btn.addEventListener('click', function () {
-          render(sec.items.length);
-          btn.remove();
-        });
-        host.appendChild(btn);
-      }
+      refresh();
+      window.addEventListener('resize', function () { if (!expanded) refresh(); });
     });
   }
 
@@ -243,7 +181,23 @@
     });
   }
 
-  buildFeatured();
+  /* ─── обложки альбомов: клик открывает весь альбом в лайтбоксе ─── */
+  function wireAlbums() {
+    document.querySelectorAll('.album[data-album]').forEach(function (fig) {
+      var sec = DATA.sections.find(function (s) { return s.id === fig.getAttribute('data-album'); });
+      if (!sec || !sec.items || !sec.items.length) return;
+      fig.setAttribute('tabindex', '0');
+      fig.setAttribute('role', 'button');
+      fig.setAttribute('aria-label', 'Открыть альбом: ' + sec.title);
+      var open = function () { openLightbox(sec.items, 0); };
+      fig.addEventListener('click', open);
+      fig.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      });
+    });
+  }
+
   buildGalleries();
+  wireAlbums();
   wirePortrait();
 })();

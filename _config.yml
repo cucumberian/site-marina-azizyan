@@ -1,0 +1,5 @@
+# GitHub Pages (Jekyll) публикует всё из репозитория — тут отсекаем служебное.
+# Файлы без front matter Jekyll копирует как есть, контент не меняется.
+exclude:
+  - AGENTS.md
+  - README.md
