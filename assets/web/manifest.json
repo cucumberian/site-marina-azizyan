@@ -1,0 +1,510 @@
+{
+ "studio": [
+  {
+   "id": "sketches-easel",
+   "src": "assets/web/sketches-easel.webp",
+   "thumb": "assets/web/preview/sketches-easel.webp",
+   "w": 1024,
+   "h": 683,
+   "caption": "Эскизы костюмов. Листы на мольберте",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.499
+  },
+  {
+   "id": "sketch-tutu",
+   "src": "assets/web/sketch-tutu.webp",
+   "thumb": "assets/web/preview/sketch-tutu.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Набросок пачки и пастель на столе",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "stitched-text",
+   "src": "assets/web/stitched-text.webp",
+   "thumb": "assets/web/preview/stitched-text.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Строки, зашитые блёстками",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "white-canvas",
+   "src": "assets/web/white-canvas.webp",
+   "thumb": "assets/web/preview/white-canvas.webp",
+   "w": 1024,
+   "h": 683,
+   "caption": "Чистый холст",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.499
+  },
+  {
+   "id": "marina-masks",
+   "src": "assets/web/marina-masks.webp",
+   "thumb": "assets/web/preview/marina-masks.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Марина Цолаковна в мастерской",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "marina-interview",
+   "src": "assets/web/marina-interview.webp",
+   "thumb": "assets/web/preview/marina-interview.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Марина Цолаковна и собеседница",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "studio-room",
+   "src": "assets/web/studio-room.webp",
+   "thumb": "assets/web/preview/studio-room.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Кабинет: книги, портреты, работы на стенах",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "desk",
+   "src": "assets/web/desk.webp",
+   "thumb": "assets/web/preview/desk.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Письменный стол: кисти, краски, этюды",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "watercolors",
+   "src": "assets/web/watercolors.webp",
+   "thumb": "assets/web/preview/watercolors.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Акварель в деревянном ящике",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "wood-machine",
+   "src": "assets/web/wood-machine.webp",
+   "thumb": "assets/web/preview/wood-machine.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Арт-объект из дерева",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "wood-detail",
+   "src": "assets/web/wood-detail.webp",
+   "thumb": "assets/web/preview/wood-detail.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Деталь деревянной конструкции",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "wood-machine-2",
+   "src": "assets/web/wood-machine-2.webp",
+   "thumb": "assets/web/preview/wood-machine-2.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Макеты и механизмы на столе",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "wood-and-goddess",
+   "src": "assets/web/wood-and-goddess.webp",
+   "thumb": "assets/web/preview/wood-and-goddess.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Статуэтка и деревянный механизм",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "stairs",
+   "src": "assets/web/stairs.webp",
+   "thumb": "assets/web/preview/stairs.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Лестница в доме",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "evgeny",
+   "src": "assets/web/evgeny.webp",
+   "thumb": "assets/web/preview/evgeny.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Евгений Остроумов, сын художницы",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  }
+ ],
+ "textile": [
+  {
+   "id": "quilt-table",
+   "src": "assets/web/quilt-table.webp",
+   "thumb": "assets/web/preview/quilt-table.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Лоскутные панно на столе мастерской",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "textile-wall",
+   "src": "assets/web/textile-wall.webp",
+   "thumb": "assets/web/preview/textile-wall.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Текстильные панно в квартире-мастерской",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "textile-dolls",
+   "src": "assets/web/textile-dolls.webp",
+   "thumb": "assets/web/preview/textile-dolls.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Куклы перед тканевым панно",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "embroidery",
+   "src": "assets/web/embroidery.webp",
+   "thumb": "assets/web/preview/embroidery.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Вышивка и шерстяные нитки",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "sofa-quilts",
+   "src": "assets/web/sofa-quilts.webp",
+   "thumb": "assets/web/preview/sofa-quilts.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Диван, застеленный работами",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  },
+  {
+   "id": "vitrine",
+   "src": "assets/web/vitrine.webp",
+   "thumb": "assets/web/preview/vitrine.webp",
+   "w": 1400,
+   "h": 933,
+   "caption": "Витрина: головные уборы и куклы",
+   "credit": "Фото: Ирина Иванова / «Культура Петербурга», 2024",
+   "aspect": 1.501
+  }
+ ],
+ "nos": [
+  {
+   "id": "nos-01",
+   "src": "assets/web/nos-01.webp",
+   "thumb": "assets/web/preview/nos-01.webp",
+   "w": 1400,
+   "h": 1105,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 1",
+   "credit": "Из архива художницы",
+   "aspect": 1.267
+  },
+  {
+   "id": "nos-02",
+   "src": "assets/web/nos-02.webp",
+   "thumb": "assets/web/preview/nos-02.webp",
+   "w": 1400,
+   "h": 1067,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 2",
+   "credit": "Из архива художницы",
+   "aspect": 1.312
+  },
+  {
+   "id": "nos-03",
+   "src": "assets/web/nos-03.webp",
+   "thumb": "assets/web/preview/nos-03.webp",
+   "w": 1400,
+   "h": 1028,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 3",
+   "credit": "Из архива художницы",
+   "aspect": 1.362
+  },
+  {
+   "id": "nos-04",
+   "src": "assets/web/nos-04.webp",
+   "thumb": "assets/web/preview/nos-04.webp",
+   "w": 1400,
+   "h": 1037,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 4",
+   "credit": "Из архива художницы",
+   "aspect": 1.35
+  },
+  {
+   "id": "nos-05",
+   "src": "assets/web/nos-05.webp",
+   "thumb": "assets/web/preview/nos-05.webp",
+   "w": 1400,
+   "h": 1022,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 5",
+   "credit": "Из архива художницы",
+   "aspect": 1.37
+  },
+  {
+   "id": "nos-06",
+   "src": "assets/web/nos-06.webp",
+   "thumb": "assets/web/preview/nos-06.webp",
+   "w": 1400,
+   "h": 827,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 6",
+   "credit": "Из архива художницы",
+   "aspect": 1.693
+  },
+  {
+   "id": "nos-07",
+   "src": "assets/web/nos-07.webp",
+   "thumb": "assets/web/preview/nos-07.webp",
+   "w": 1400,
+   "h": 817,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 7",
+   "credit": "Из архива художницы",
+   "aspect": 1.714
+  },
+  {
+   "id": "nos-08",
+   "src": "assets/web/nos-08.webp",
+   "thumb": "assets/web/preview/nos-08.webp",
+   "w": 1400,
+   "h": 814,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 8",
+   "credit": "Из архива художницы",
+   "aspect": 1.72
+  },
+  {
+   "id": "nos-09",
+   "src": "assets/web/nos-09.webp",
+   "thumb": "assets/web/preview/nos-09.webp",
+   "w": 1400,
+   "h": 980,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 9",
+   "credit": "Из архива художницы",
+   "aspect": 1.429
+  },
+  {
+   "id": "nos-10",
+   "src": "assets/web/nos-10.webp",
+   "thumb": "assets/web/preview/nos-10.webp",
+   "w": 1400,
+   "h": 1150,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 10",
+   "credit": "Из архива художницы",
+   "aspect": 1.217
+  },
+  {
+   "id": "nos-11",
+   "src": "assets/web/nos-11.webp",
+   "thumb": "assets/web/preview/nos-11.webp",
+   "w": 1400,
+   "h": 1012,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 11",
+   "credit": "Из архива художницы",
+   "aspect": 1.383
+  },
+  {
+   "id": "nos-12",
+   "src": "assets/web/nos-12.webp",
+   "thumb": "assets/web/preview/nos-12.webp",
+   "w": 1400,
+   "h": 782,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 12",
+   "credit": "Из архива художницы",
+   "aspect": 1.79
+  },
+  {
+   "id": "nos-13",
+   "src": "assets/web/nos-13.webp",
+   "thumb": "assets/web/preview/nos-13.webp",
+   "w": 1400,
+   "h": 1002,
+   "caption": "Эскиз к м/ф «Нос, или Заговор „не таких“», А. Хржановский · 13",
+   "credit": "Из архива художницы",
+   "aspect": 1.397
+  }
+ ],
+ "don-juan": [
+  {
+   "id": "don-juan-01",
+   "src": "assets/web/don-juan-01.webp",
+   "thumb": "assets/web/preview/don-juan-01.webp",
+   "w": 1181,
+   "h": 944,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 1",
+   "credit": "Из архива художницы",
+   "aspect": 1.251
+  },
+  {
+   "id": "don-juan-02",
+   "src": "assets/web/don-juan-02.webp",
+   "thumb": "assets/web/preview/don-juan-02.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 2",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-03",
+   "src": "assets/web/don-juan-03.webp",
+   "thumb": "assets/web/preview/don-juan-03.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 3",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-04",
+   "src": "assets/web/don-juan-04.webp",
+   "thumb": "assets/web/preview/don-juan-04.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 4",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-05",
+   "src": "assets/web/don-juan-05.webp",
+   "thumb": "assets/web/preview/don-juan-05.webp",
+   "w": 1034,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 5",
+   "credit": "Из архива художницы",
+   "aspect": 1.401
+  },
+  {
+   "id": "don-juan-06",
+   "src": "assets/web/don-juan-06.webp",
+   "thumb": "assets/web/preview/don-juan-06.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 6",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-07",
+   "src": "assets/web/don-juan-07.webp",
+   "thumb": "assets/web/preview/don-juan-07.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 7",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-08",
+   "src": "assets/web/don-juan-08.webp",
+   "thumb": "assets/web/preview/don-juan-08.webp",
+   "w": 1033,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 8",
+   "credit": "Из архива художницы",
+   "aspect": 1.4
+  },
+  {
+   "id": "don-juan-09",
+   "src": "assets/web/don-juan-09.webp",
+   "thumb": "assets/web/preview/don-juan-09.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 9",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-10",
+   "src": "assets/web/don-juan-10.webp",
+   "thumb": "assets/web/preview/don-juan-10.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 10",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-11",
+   "src": "assets/web/don-juan-11.webp",
+   "thumb": "assets/web/preview/don-juan-11.webp",
+   "w": 1034,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 11",
+   "credit": "Из архива художницы",
+   "aspect": 1.401
+  },
+  {
+   "id": "don-juan-12",
+   "src": "assets/web/don-juan-12.webp",
+   "thumb": "assets/web/preview/don-juan-12.webp",
+   "w": 1034,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 12",
+   "credit": "Из архива художницы",
+   "aspect": 1.401
+  },
+  {
+   "id": "don-juan-13",
+   "src": "assets/web/don-juan-13.webp",
+   "thumb": "assets/web/preview/don-juan-13.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 13",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-14",
+   "src": "assets/web/don-juan-14.webp",
+   "thumb": "assets/web/preview/don-juan-14.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 14",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  },
+  {
+   "id": "don-juan-15",
+   "src": "assets/web/don-juan-15.webp",
+   "thumb": "assets/web/preview/don-juan-15.webp",
+   "w": 1034,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 15",
+   "credit": "Из архива художницы",
+   "aspect": 1.401
+  },
+  {
+   "id": "don-juan-16",
+   "src": "assets/web/don-juan-16.webp",
+   "thumb": "assets/web/preview/don-juan-16.webp",
+   "w": 517,
+   "h": 738,
+   "caption": "Рисунки к «Дон Жуану» Мольера · 16",
+   "credit": "Из архива художницы",
+   "aspect": 0.701
+  }
+ ]
+}
