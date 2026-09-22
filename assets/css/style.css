@@ -239,7 +239,9 @@ section[id] { scroll-margin-top: 96px; }
 
 /* ─── HISTORY & NEWS ──────────────────────────────── */
 .history { padding-block: 0 var(--gap-section); }
-.news { padding-block: var(--gap-section) 0; }
+/* верхний отступ даёт padding-bottom секции «История» (общий ритм),
+   перед футером — собственный верхний отступ футера */
+.news { padding-block: 0; }
 .timeline { max-width: 46rem; }
 .t-row {
   display: grid; grid-template-columns: 11ch 1fr;
@@ -292,6 +294,13 @@ section[id] { scroll-margin-top: 96px; }
 .press-title {
   font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
   color: var(--ink-faint); margin-bottom: 18px;
+}
+@media (min-width: 1200px) {
+  /* «О художнице» встает в левый колонтитул, как лейблы прочих разделов */
+  .press { position: relative; }
+  .press-title {
+    position: absolute; left: -170px; top: 12px; width: 140px; margin: 0;
+  }
 }
 .press-links { display: flex; flex-direction: column; }
 .press-links a {
