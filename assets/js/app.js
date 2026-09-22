@@ -58,8 +58,8 @@
     [ { c: 2, s: 4 },            { c: 7, s: 5, off: 1 } ]
   ];
   var MT = 'clamp(28px, 5vw, 88px)';
-  // свёрнуто показываем первые две строки листа
-  var COLLAPSED = PATTERN[0].length + PATTERN[1].length;
+  // свёрнуто показываем одну feature-картинку, остальное — лайтбокс / «показать все»
+  var COLLAPSED = 1;
 
   function slots() {
     var out = [];
@@ -158,6 +158,28 @@
     if (e.key === 'ArrowLeft') step(-1);
     if (e.key === 'ArrowRight') step(1);
   });
+
+  /* ─── тач: свайп влево/вправо листает серию ───
+     после свайпа гасим следующий click, иначе фон закроет лайтбокс */
+  var touchX = null, touchY = null, swipeAt = 0;
+  lb.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { touchX = null; return; }
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (touchX == null) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - touchX, dy = t.clientY - touchY;
+    touchX = null;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) {
+      swipeAt = Date.now();
+      step(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+  lb.addEventListener('click', function (e) {
+    if (Date.now() - swipeAt < 400) { e.stopPropagation(); }
+  }, true);
 
   /* ─── read more ─── */
   var more = document.querySelector('[data-more]');
