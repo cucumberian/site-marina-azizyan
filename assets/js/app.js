@@ -24,14 +24,18 @@
     img.alt = item.caption || 'Работа Марины Азизян';
     img.loading = STATIC ? 'eager' : 'lazy';
     img.decoding = 'async';
+    // размеры из манифеста — браузер резервирует место без прыжков
+    if (item.w && item.h) { img.width = item.w; img.height = item.h; }
     return img;
   }
 
-  function makeCard(item) {
-    var card = el('div', 'card');
-    var box = el('div', 'thumb');
-    box.appendChild(imgFor(item, 'thumb'));
-    card.appendChild(box);
+  function makeCard(item, full) {
+    var card = el('figure', 'card');
+    card.appendChild(imgFor(item, full ? 'src' : 'thumb'));
+    var cap = el('figcaption');
+    cap.appendChild(el('span', 'card-title', item.caption || ''));
+    if (item.credit) cap.appendChild(el('span', 'card-credit', item.credit));
+    card.appendChild(cap);
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
     return card;
@@ -45,7 +49,24 @@
     });
   }
 
-  /* ─── galleries: одна строка миниатюр, остальное — лайтбокс / «показать все» ─── */
+  /* ─── galleries: монтажный лист, 12 колонок ───
+     Ритм задан паттерном: крупная feature + меньшие со смещением.
+     Слот {c} — колонка начала, {s} — ширина, off — «лесенка» вниз. */
+  var PATTERN = [
+    [ { c: 1, s: 7 },            { c: 9, s: 4, off: 1 } ],
+    [ { c: 1, s: 5, off: 1 },    { c: 7, s: 5 } ],
+    [ { c: 2, s: 4 },            { c: 7, s: 5, off: 1 } ]
+  ];
+  var MT = 'clamp(28px, 5vw, 88px)';
+  // свёрнуто показываем первые две строки листа
+  var COLLAPSED = PATTERN[0].length + PATTERN[1].length;
+
+  function slots() {
+    var out = [];
+    PATTERN.forEach(function (row) { row.forEach(function (sl) { out.push(sl); }); });
+    return out;
+  }
+
   function buildGalleries() {
     DATA.sections.forEach(function (sec) {
       var host = document.querySelector('[data-gallery="' + sec.id + '"]');
@@ -54,29 +75,34 @@
       var grid = el('div', 'grid');
       host.appendChild(grid);
 
-      var expanded = false;
-      var btn = el('button', 'grid-cta', 'показать все ' + sec.items.length);
-      btn.type = 'button';
-      btn.addEventListener('click', function () { expanded = true; refresh(); });
+      var pattern = slots();
+      var limit = Math.min(COLLAPSED, sec.items.length);
 
-      // ponytail: колонки считаем по факту сетки; при сужении окна перерисовываем строку
-      function cols() {
-        return Math.max(1, getComputedStyle(grid).gridTemplateColumns.split(' ').length);
+      var btn = null;
+      if (sec.items.length > limit) {
+        btn = el('button', 'grid-cta', 'показать все ' + sec.items.length);
+        btn.type = 'button';
+        btn.addEventListener('click', function () {
+          limit = sec.items.length;
+          btn.remove();
+          render();
+        });
+        host.appendChild(btn);
       }
 
-      function refresh() {
-        var n = expanded ? sec.items.length : Math.min(cols(), sec.items.length);
+      function render() {
         grid.innerHTML = '';
-        for (var i = 0; i < n; i++) {
-          var card = makeCard(sec.items[i]);
+        for (var i = 0; i < limit; i++) {
+          var sl = pattern[i % pattern.length];
+          var card = makeCard(sec.items[i], sl.s >= 6);
+          card.style.setProperty('--c', sl.c);
+          card.style.setProperty('--s', sl.s);
+          if (sl.off) card.style.setProperty('--mt', MT);
           wireCard(card, sec.items, i);
           grid.appendChild(card);
         }
-        if (expanded || sec.items.length <= n) btn.remove();
-        else host.appendChild(btn);
       }
-      refresh();
-      window.addEventListener('resize', function () { if (!expanded) refresh(); });
+      render();
     });
   }
 
@@ -85,15 +111,18 @@
   var lbImg = lb.querySelector('[data-lb-img]');
   var lbCap = lb.querySelector('[data-lb-caption]');
   var lbCredit = lb.querySelector('[data-lb-credit]');
+  var lbCount = lb.querySelector('[data-lb-count]');
   var set = [], pos = 0, lastFocus = null;
 
   function paint() {
     var item = set[pos];
     if (!item) return;
     lbImg.src = item.src;
+    if (item.w && item.h) { lbImg.width = item.w; lbImg.height = item.h; }
     lbImg.alt = item.caption || '';
     lbCap.textContent = item.caption || '';
     lbCredit.textContent = item.credit || '';
+    lbCount.textContent = (pos + 1) + ' / ' + set.length;
   }
 
   function openLightbox(items, index) {

@@ -7,16 +7,17 @@
 <meta name="description" content="Персональная страница Марины Азизян — художника театра и кино, живописца, графика и мастера лоскутного шитья. Санкт-Петербург.">
 <meta property="og:title" content="Марина Азизян — художник театра и кино">
 <meta property="og:description" content="Живопись, графика, сценография, лоскутное шитьё. Эскизы к двадцати пяти фильмам и десяткам спектаклей.">
-<meta property="og:image" content="assets/web/sketches-easel.webp">
-<link rel="icon" href="assets/web/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="assets/web/studio-room.webp">
+<link rel="icon" href="favicon.ico?v=2" sizes="32x32">
+<link rel="icon" href="assets/web/favicon.svg?v=2" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<div class="page">
+<div class="page" id="top">
 
   <!-- ─── NAV ─── -->
-  <header class="top-nav" id="top">
+  <header class="top-nav">
     <a class="nav-left" href="#top">Марина Азизян</a>
     <nav class="nav-right">
       <a class="nav-link" href="#o-sebe">О себе</a>
@@ -28,18 +29,27 @@
 
   <!-- ─── HERO ─── -->
   <section class="hero reveal">
-    <p class="hero-kicker">Санкт-Петербург · художник</p>
-    <h1 class="hero-title">Марина&nbsp;Азизян</h1>
-    <p class="hero-sub">
-      Художник театра и кино, живописец, график. Эскизы к двадцати пяти фильмам, десятки
-      драматических, балетных и оперных спектаклей, работы в технике лоскутного шитья.
-      Обладатель золотой медали Российской академии художеств, дважды лауреат театральной
-      премии «Золотой софит», лауреат Специальной премии «Золотая маска» (2020).
-    </p>
+    <div class="hero-text">
+      <p class="hero-kicker">Санкт-Петербург · художник</p>
+      <h1 class="hero-title">Марина<br>Азизян</h1>
+      <p class="hero-sub">
+        Художник театра и кино, живописец, график. Эскизы к двадцати пяти фильмам, десятки
+        драматических, балетных и оперных спектаклей, работы в технике лоскутного шитья.
+      </p>
+      <ul class="hero-meta">
+        <li>Золотая медаль Российской академии художеств</li>
+        <li>Дважды лауреат театральной премии «Золотой софит»</li>
+        <li>Лауреат Специальной премии «Золотая маска» (2020)</li>
+      </ul>
+    </div>
+    <figure class="hero-photo">
+      <img src="assets/web/studio-room.webp" alt="Кабинет художницы: книги, портреты, работы на стенах" width="1400" height="933" decoding="async">
+      <figcaption>Кабинет на набережной. Фото: Ирина Иванова, 2024</figcaption>
+    </figure>
   </section>
 
   <!-- ─── ABOUT ─── -->
-  <section class="about reveal" id="o-sebe">
+  <section class="about has-label reveal" id="o-sebe">
     <div class="section-label">О себе</div>
     <div class="about-grid">
       <figure class="about-portrait" data-portrait="marina-masks">
@@ -96,7 +106,7 @@
   </section>
 
   <!-- ─── WORKS ─── -->
-  <section class="works" id="raboty">
+  <section class="works has-label" id="raboty">
     <div class="section-label reveal">Работы</div>
 
     <div class="work-section reveal" data-carousel-block>
@@ -151,7 +161,7 @@
   </section>
 
   <!-- ─── HISTORY ─── -->
-  <section class="history reveal" id="istoriya">
+  <section class="history has-label reveal" id="istoriya">
     <div class="section-label">История</div>
 
     <div class="timeline">
@@ -210,7 +220,7 @@
   </section>
 
   <!-- ─── NEWS ─── -->
-  <section class="news reveal" id="novosti">
+  <section class="news has-label reveal" id="novosti">
     <div class="section-label">Лента новостей</div>
     <div class="timeline">
       <div class="t-row"><span class="t-year">2024</span><p><a href="https://rarebook-spb.ru/catalog/izdaniya-v-nalichii/obrazy-armyanskoy-liriki/" target="_blank" rel="noopener">«Образы армянской лирики»</a> — рукотворная книга издательства «Редкая книга из Санкт-Петербурга» с иллюстрациями Азизян; тираж 25 нумерованных экземпляров, первый — в собрании Эрмитажа.</p></div>
@@ -242,6 +252,7 @@
   <button class="lb-close" data-lb-close aria-label="Закрыть">×</button>
   <button class="lb-nav left" data-lb-prev aria-label="Предыдущее">←</button>
   <button class="lb-nav right" data-lb-next aria-label="Следующее">→</button>
+  <span class="lb-count" data-lb-count aria-hidden="true"></span>
   <figure class="lb-body">
     <img data-lb-img alt="">
     <figcaption>
