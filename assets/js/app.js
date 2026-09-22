@@ -58,8 +58,9 @@
     [ { c: 2, s: 4 },            { c: 7, s: 5, off: 1 } ]
   ];
   var MT = 'clamp(28px, 5vw, 88px)';
-  // свёрнуто показываем одну feature-картинку, остальное — лайтбокс / «показать все»
-  var COLLAPSED = 1;
+  // свёрнуто: на десктопе 4 кадра (прежний вид работ), на телефоне (≤720px —
+  // та же граница, что у CSS-разворота «в край») — 1. Остальное — лайтбокс / «показать все»
+  var COLLAPSED = window.matchMedia('(max-width: 720px)').matches ? 1 : 4;
 
   function slots() {
     var out = [];
@@ -123,6 +124,7 @@
     lbCap.textContent = item.caption || '';
     lbCredit.textContent = item.credit || '';
     lbCount.textContent = (pos + 1) + ' / ' + set.length;
+    resetView();
   }
 
   function openLightbox(items, index) {
@@ -138,6 +140,7 @@
 
   function closeLightbox() {
     lb.classList.remove('show');
+    resetView();
     document.body.style.overflow = '';
     setTimeout(function () { lb.hidden = true; lbImg.removeAttribute('src'); }, 240);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
@@ -159,24 +162,176 @@
     if (e.key === 'ArrowRight') step(1);
   });
 
-  /* ─── тач: свайп влево/вправо листает серию ───
-     после свайпа гасим следующий click, иначе фон закроет лайтбокс */
-  var touchX = null, touchY = null, swipeAt = 0;
+  /* ─── зум лайтбокса: pinch-тач, даблтап/даблклик → 100%, панорама ───
+     100% = натуральный размер файла; при смене кадра зум сбрасывается. */
+  var view = { s: 1, x: 0, y: 0 };
+
+  function maxScale() {
+    var item = set[pos];
+    var w = lbImg.clientWidth, h = lbImg.clientHeight;
+    if (!w || !h || !item || !item.w) return 1;
+    // не даём уйти меньше вписанного и дальше 100%
+    return Math.max(1, Math.min(item.w / w, item.h / h));
+  }
+
+  function applyView() {
+    if (view.s <= 1) { view.s = 1; view.x = 0; view.y = 0; }
+    else {
+      // не даём картине улететь за экран целиком
+      var overX = Math.max(0, (lbImg.clientWidth * view.s - window.innerWidth) / 2 + 8);
+      var overY = Math.max(0, (lbImg.clientHeight * view.s - window.innerHeight) / 2 + 8);
+      view.x = Math.max(-overX, Math.min(overX, view.x));
+      view.y = Math.max(-overY, Math.min(overY, view.y));
+    }
+    lbImg.style.transform = view.s > 1
+      ? 'translate(' + view.x + 'px, ' + view.y + 'px) scale(' + view.s + ')'
+      : '';
+    lb.classList.toggle('zoomed', view.s > 1);
+  }
+
+  function resetView() { view.s = 1; view.x = 0; view.y = 0; applyView(); }
+
+  // масштаб с якорем в точке px,py (от центра экрана): она остаётся на месте
+  function zoomAt(px, py, sNew) {
+    sNew = Math.max(1, Math.min(maxScale(), sNew));
+    var k = sNew / view.s;
+    view.x = px - (px - view.x) * k;
+    view.y = py - (py - view.y) * k;
+    view.s = sNew;
+    applyView();
+  }
+
+  function toggleZoom(px, py) {
+    if (view.s > 1) resetView();
+    else zoomAt(px || 0, py || 0, maxScale());
+  }
+
+  // мышь: одиночный клик по картинке — зум 100% / обратно.
+  // тач-клики пропускаем: их занимается даблтап выше.
+  var drag = null, dragMoved = false;
+  lbImg.addEventListener('click', function (e) {
+    if (e.pointerType === 'touch') return;
+    if (dragMoved) { dragMoved = false; return; } // это было перетаскивание, не клик
+    toggleZoom(e.clientX - window.innerWidth / 2, e.clientY - window.innerHeight / 2);
+  });
+  lbImg.addEventListener('mousedown', function (e) {
+    if (view.s <= 1) return;
+    drag = { x: e.clientX, y: e.clientY };
+    dragMoved = false;
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (!drag) return;
+    view.x += e.clientX - drag.x; view.y += e.clientY - drag.y;
+    drag.x = e.clientX; drag.y = e.clientY;
+    dragMoved = true;
+    applyView();
+  });
+  window.addEventListener('mouseup', function () { drag = null; });
+
+  // колесо/трекпад: листает серию; при зуме — прокручивает саму картинку.
+  // копим deltaY: один «щелчок» (~100px) = один кадр, быстрое вращение проматывает сразу.
+  var wheelAcc = 0;
+  lb.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    if (view.s > 1) {
+      view.x -= e.deltaX;
+      view.y -= e.deltaY;
+      applyView();
+      return;
+    }
+    var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (e.deltaMode) d *= 16; // firefox может отдавать строки, не пиксели
+    if (d && Math.sign(d) !== Math.sign(wheelAcc)) wheelAcc = 0; // сменили направление
+    wheelAcc += d;
+    if (Math.abs(wheelAcc) >= 100) {
+      step(wheelAcc > 0 ? 1 : -1);
+      wheelAcc = 0;
+    }
+  }, { passive: false });
+
+  /* ─── тач ───
+     pinch — зум, один палец при зуме — панорама,
+     свайп при 100% (view.s === 1) — листает серию,
+     даблтап — 100% / обратно во вписанную. */
+  var touchX = null, touchY = null, panX = 0, panY = 0, moved = false;
+  var swipeAt = 0, pinch = null;
+  var lastTapAt = 0, lastTapX = 0, lastTapY = 0;
+
+  function tdist(a, b) {
+    var dx = a.clientX - b.clientX, dy = a.clientY - b.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  // false → обычный тап (клик по фону закроет), true → мы уже всё сделали
+  function handleTap(x, y) {
+    var now = Date.now();
+    if (now - lastTapAt < 300 && Math.abs(x - lastTapX) < 30 && Math.abs(y - lastTapY) < 30) {
+      lastTapAt = 0;
+      toggleZoom(x - window.innerWidth / 2, y - window.innerHeight / 2);
+      return true;
+    }
+    lastTapAt = now; lastTapX = x; lastTapY = y;
+    return false;
+  }
+
   lb.addEventListener('touchstart', function (e) {
-    if (e.touches.length !== 1) { touchX = null; return; }
-    touchX = e.touches[0].clientX;
-    touchY = e.touches[0].clientY;
+    if (e.touches.length === 2) {
+      pinch = { d: tdist(e.touches[0], e.touches[1]), s: view.s };
+      touchX = touchY = null;
+    } else if (e.touches.length === 1) {
+      pinch = null;
+      touchX = panX = e.touches[0].clientX;
+      touchY = panY = e.touches[0].clientY;
+      moved = false;
+    } else { touchX = null; pinch = null; }
   }, { passive: true });
+
+  lb.addEventListener('touchmove', function (e) {
+    if (pinch && e.touches.length === 2 && pinch.d > 0) {
+      var mx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - window.innerWidth / 2;
+      var my = (e.touches[0].clientY + e.touches[1].clientY) / 2 - window.innerHeight / 2;
+      var sNew = Math.max(1, Math.min(maxScale(), pinch.s * tdist(e.touches[0], e.touches[1]) / pinch.d));
+      var k = sNew / view.s;
+      view.x = mx - (mx - view.x) * k;
+      view.y = my - (my - view.y) * k;
+      view.s = sNew;
+      applyView();
+      moved = true;
+    } else if (touchX != null && e.touches.length === 1) {
+      var x = e.touches[0].clientX, y = e.touches[0].clientY;
+      if (view.s > 1) {
+        view.x += x - panX; view.y += y - panY;
+        panX = x; panY = y;
+        moved = true;
+        applyView();
+      } else if (Math.abs(x - touchX) > 8 || Math.abs(y - touchY) > 8) {
+        moved = true;
+      }
+    }
+  }, { passive: true });
+
   lb.addEventListener('touchend', function (e) {
-    if (touchX == null) return;
+    if (pinch && e.touches.length < 2) pinch = null;
+    if (touchX == null || e.touches.length) return;
     var t = e.changedTouches[0];
     var dx = t.clientX - touchX, dy = t.clientY - touchY;
     touchX = null;
+
+    if (view.s > 1) {
+      // зумленное не листаем: тап = кандидат на даблтап, движение = панорама
+      if (!moved && handleTap(t.clientX, t.clientY)) e.preventDefault();
+      return;
+    }
     if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) {
       swipeAt = Date.now();
       step(dx < 0 ? 1 : -1);
+      if (e.cancelable) e.preventDefault(); // гасим синтетический click/dblclick после свайпа
+    } else if (handleTap(t.clientX, t.clientY)) {
+      if (e.cancelable) e.preventDefault();
     }
-  }, { passive: true });
+  }, { passive: false });
+
   lb.addEventListener('click', function (e) {
     if (Date.now() - swipeAt < 400) { e.stopPropagation(); }
   }, true);
