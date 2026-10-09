@@ -1,0 +1,69 @@
+# Деплой статики на marina-azizyan.borey.ru (хостинг Макхост, по образцу old.borey.ru)
+#
+# Секрет репозитория (Settings → Secrets and variables → Actions):
+#   SSH_PRIVATE_KEY — приватный ключ deploy-пары (формат OpenSSH, одна строка
+#   или многострочное значение — как есть, без кавычек).
+#   Публичный ключ уже прописан на хостинге в ~/.ssh/authorized_keys.
+#
+# Приватный ключ в этот файл и в git не попадает — только зашифрованный секрет GitHub.
+
+name: Deploy to marina-azizyan.borey.ru
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-marina-azizyan
+  cancel-in-progress: true
+
+env:
+  SSH_USER: a302163_1
+  SSH_HOST: a302163.ftp.mchost.ru
+  DOCROOT: /home/httpd/vhosts/borey.ru/subdomains/marina-azizyan/httpdocs
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # На сайт идут только index.html, favicon.ico и assets/ — служебное
+      # (_src, _build, tools, images, .git-файлы) не заливаем.
+      - name: Собрать dist
+        run: |
+          mkdir -p dist
+          cp index.html favicon.ico dist/
+          cp -r assets dist/
+          find dist -type f -exec chmod 644 {} +
+          find dist -type d -exec chmod 755 {} +
+
+      - name: Подготовить SSH
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' \
+            'a302163.ftp.mchost.ru ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0gChJUpw2upo/NXeBvpIK0+zEipLGcVeniRCQQWDhuqbSAh9VEROFp1yngnNXIaqpv959UzadQ5oZ7wqWuK+gymLZ3XOWHZ+wbe1uKwd4FFT4bAJ3bhgPhmuRI1UKYQ0kRUJW/7AO7V7EV7Q2XInPw4x5Nm9IHF5t3OmocnVPJaK2TUTLlJ9uQvuz/1XuI+sXz3B0jB1ujo21tn98NrNeOpDb9CUd3AxnuQaZIX+pf/sZ+acxr1xvqpptPwYHEc136Szm39t9TkfsRtp3ixX2mSgnWzQjqyiIVOXStFGF6s6q4o24MjWqsw/WRYDmn8luvVJzPXhQNIyj1B9KHNK0Q==' \
+            'a302163.ftp.mchost.ru ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEWgZl8UUZuVTDMGGOZd3/Gjwt8DTSwjM6Eh3L15sC6p' \
+            >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+      # --chmod=F644,D755 — страховка от «403 на CSS/JS» из-за прав 600.
+      # --exclude=/mchost.php — служебный файл Макхоста, не трогаем.
+      - name: Залить файлы (rsync)
+        run: |
+          rsync -rlptDvc --delete \
+            --chmod=F644,D755 \
+            --exclude=/mchost.php \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            dist/ "$SSH_USER@$SSH_HOST:$DOCROOT/"
+
+      - name: Проверить сайт
+        run: |
+          curl -fsS -o /dev/null -w "главная:    %{http_code}\n" https://marina-azizyan.borey.ru/
+          curl -fsS -o /dev/null -w "style.css:  %{http_code}\n" https://marina-azizyan.borey.ru/assets/css/style.css
+          curl -fsS -o /dev/null -w "app.js:     %{http_code}\n" https://marina-azizyan.borey.ru/assets/js/app.js
+          curl -fsS -o /dev/null -w "data.js:    %{http_code}\n" https://marina-azizyan.borey.ru/assets/js/data.js
